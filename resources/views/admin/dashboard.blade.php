@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
@@ -37,6 +36,16 @@
         </div>
     </div>
 </nav>
+<nav>
+    <a href="{{ route('admin.dashboard') }}">Admin Panel</a> |
+    <a href="{{ route('dashboard') }}">My Dashboard</a> |
+    <a href="{{ route('archive') }}">Public Archive</a> |
+    <a href="{{ route('admin.users') }}">User Management</a> |
+    <form action="{{ route('logout') }}" method="POST" style="display:inline">
+        @csrf
+        <button type="submit">Logout</button>
+    </form>
+</nav>
 
 <div class="container my-5">
     <!-- Header -->
@@ -44,13 +53,16 @@
         <h2 class="fw-bold mb-1">Admin Dashboard</h2>
         <p class="text-muted">Review and manage research submissions</p>
     </div>
+<div>
+    <h2>Admin Dashboard</h2>
+    <p>Review and manage research submissions</p>
 
     <!-- Success/Error Messages -->
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
+        @if(session('success'))
+        <div style="color: green; border: 1px solid #cfc; padding: 8px; margin-bottom: 10px;">
+            {{ session('success') }}
+        </div>
     @endif
 
     <!-- Stats Cards -->
@@ -77,6 +89,10 @@
                             <h6 class="text-muted small mb-1">Pending Review</h6>
                             <h2 class="mb-0 text-warning">{{ $stats['pending'] }}</h2>
                         </div>
+                                <div>
+                                    <div>Total Submissions</div>
+                                    <div><strong>{{ $stats['total'] }}</strong></div>
+                                </div>
                         <i class="bi bi-clock text-warning" style="font-size: 2rem; opacity: 0.3;"></i>
                     </div>
                 </div>
@@ -90,6 +106,10 @@
                         <div>
                             <h6 class="text-muted small mb-1">Approved</h6>
                             <h2 class="mb-0 text-success">{{ $stats['approved'] }}</h2>
+                                <div>
+                                    <div>Pending Review</div>
+                                    <div style="color: orange;"><strong>{{ $stats['pending'] }}</strong></div>
+                                </div>
                         </div>
                         <i class="bi bi-check-circle text-success" style="font-size: 2rem; opacity: 0.3;"></i>
                     </div>
@@ -103,6 +123,10 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="text-muted small mb-1">Rejected</h6>
+                                <div>
+                                    <div>Approved</div>
+                                    <div style="color: green;"><strong>{{ $stats['approved'] }}</strong></div>
+                                </div>
                             <h2 class="mb-0 text-danger">{{ $stats['rejected'] }}</h2>
                         </div>
                         <i class="bi bi-x-circle text-danger" style="font-size: 2rem; opacity: 0.3;"></i>
@@ -116,6 +140,10 @@
     <div class="card">
         <div class="card-header bg-white">
             <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div>Rejected</div>
+                                    <div style="color: red;"><strong>{{ $stats['rejected'] }}</strong></div>
+                                </div>
                 <div>
                     <h5 class="mb-0">Submission Review</h5>
                     <small class="text-muted">Review, approve, or reject research submissions</small>

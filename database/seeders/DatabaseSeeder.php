@@ -21,7 +21,14 @@ class DatabaseSeeder extends Seeder
             'Law',
             'Civil Engineering',
             'Architecture',
-            'Electronics and Communication Engineering'
+            'Electronics and Communication Engineering',
+            'Pharmacy',
+            'Public Health',
+            'Environmental Science',
+            'Mathematics',
+            'Physics',
+            'Chemistry',
+            'Biotechnology'
         ];
 
         foreach ($departments as $dept) {
@@ -44,7 +51,19 @@ class DatabaseSeeder extends Seeder
             'Database Systems',
             'Human-Computer Interaction',
             'Computer Vision',
-            'Natural Language Processing'
+            'Natural Language Processing',
+            'Robotics',
+            'Renewable Energy',
+            'Sustainable Development',
+            'Public Health',
+            'Environmental Science',
+            'Biotechnology',
+            'Pharmaceutical Sciences',
+            'Civil Engineering',
+            'Architecture',
+            'Business Administration',
+            'Law',
+            'English Literature'
         ];
 
         foreach ($domains as $domain) {
