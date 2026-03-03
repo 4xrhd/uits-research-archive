@@ -17,217 +17,172 @@
 
     <style>
         :root {
-            --primary-glow: rgba(99, 102, 241, 0.4);
-            --secondary-glow: rgba(168, 85, 247, 0.4);
+            --primary-color: #0f172a;
+            --accent-color: #2563eb;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --bg-body: #ffffff;
+            --bg-alt: #f8fafc;
+            --border-color: #e2e8f0;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0f1115;
-            color: #f8fafc;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            position: relative;
             padding-top: 80px; 
         }
 
         h1, h2, h3, h4, h5, h6, .navbar-brand {
             font-family: 'Outfit', sans-serif;
+            color: var(--primary-color);
         }
 
-        /* Abstract Background Elements */
-        .bg-orb-1 {
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 60%);
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(60px);
-            animation: float 15s infinite ease-in-out alternate;
-        }
-
-        .bg-orb-2 {
-            position: fixed;
-            bottom: -20%;
-            right: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: radial-gradient(circle, var(--secondary-glow) 0%, transparent 60%);
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(80px);
-            animation: float 20s infinite ease-in-out alternate-reverse;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(5%, 10%) scale(1.1); }
-        }
-
-        /* Glassmorphism Navbar */
+        /* Clean Navbar */
         .navbar {
-            background: rgba(15, 17, 21, 0.7) !important;
+            background: rgba(255, 255, 255, 0.8) !important;
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--border-color);
             padding: 1rem 0;
             transition: all 0.3s ease;
         }
         
         .nav-link {
-            color: rgba(255, 255, 255, 0.8) !important;
+            color: var(--text-main) !important;
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
         
         .nav-link:hover {
-            color: #fff !important;
-            transform: translateY(-2px);
+            color: var(--accent-color) !important;
         }
 
         /* Hero Text */
         .page-title {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary-color);
+            letter-spacing: -0.02em;
         }
 
         /* Form Controls */
         .search-container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: white;
+            border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
         }
 
         .form-control, .form-select, .input-group-text {
-            background-color: rgba(0, 0, 0, 0.2) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            color: white !important;
+            background-color: var(--bg-alt) !important;
+            border: 1px solid var(--border-color) !important;
+            color: var(--text-main) !important;
+            border-radius: 10px;
         }
 
         .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.4);
+            color: var(--text-muted);
         }
 
         .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25) !important;
-            border-color: rgba(99, 102, 241, 0.5) !important;
-        }
-
-        .form-select option {
-            background-color: #1a1c23;
-            color: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+            border-color: var(--accent-color) !important;
         }
 
         .form-label {
-            color: #94a3b8;
-            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         /* Buttons */
         .btn-premium {
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-            transition: all 0.3s ease;
+            padding: 0.75rem 2rem;
+            transition: all 0.2s;
         }
         .btn-premium:hover {
+            background-color: #1d4ed8;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
             color: white;
         }
         
         .btn-outline-premium {
-            background: rgba(255, 255, 255, 0.03);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            background: white;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            transition: all 0.2s;
         }
         .btn-outline-premium:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: white;
+            background: var(--bg-alt);
+            border-color: #cbd5e1;
         }
 
         /* Archive Cards */
         .archive-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: white;
+            border: 1px solid var(--border-color);
             border-radius: 20px;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             height: 100%;
             cursor: pointer;
-            padding: 1.5rem;
+            padding: 2rem;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .archive-card:hover {
             transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-color);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
         }
 
         .card-title {
-            color: #f8fafc;
-            font-weight: 600;
+            color: var(--primary-color);
+            font-weight: 700;
             font-size: 1.25rem;
             line-height: 1.4;
             margin-bottom: 1rem;
         }
 
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
         /* Specific Badges */
         .type-badge {
             font-weight: 600;
             padding: 0.4rem 0.8rem;
-            border-radius: 50px;
+            border-radius: 8px;
             font-size: 0.75rem;
-            letter-spacing: 0.5px;
             text-transform: uppercase;
         }
         
-        .badge-research { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
-        .badge-article { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .badge-capstone { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .badge-thesis { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.2); }
+        .badge-research { background: #eff6ff; color: #1e40af; }
+        .badge-article { background: #faf5ff; color: #6b21a8; }
+        .badge-capstone { background: #fffaf5; color: #9a3412; }
+        .badge-thesis { background: #f5f3ff; color: #3730a3; }
         
         .tag-badge {
-            background: rgba(255, 255, 255, 0.05);
-            color: #cbd5e1;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 400;
+            background: var(--bg-alt);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
             padding: 0.25rem 0.75rem;
             border-radius: 50px;
             font-size: 0.8rem;
@@ -235,74 +190,50 @@
 
         /* Modals */
         .modal-content {
-            background-color: #1a1c23;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
-        .modal-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .modal-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .btn-close {
-            filter: invert(1) grayscale(100%) brightness(200%);
-        }
+        .modal-header { border-bottom: 1px solid var(--border-color); padding: 2rem; }
+        .modal-footer { border-top: 1px solid var(--border-color); padding: 2rem; }
         
         .modal-body .bg-light {
-            background-color: rgba(255, 255, 255, 0.02) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-        }
-        
-        .modal-body .text-muted {
-            color: #94a3b8 !important;
+            background-color: var(--bg-alt) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
         }
         
         /* Pagination */
         .pagination {
-            --bs-pagination-bg: rgba(255, 255, 255, 0.05);
-            --bs-pagination-border-color: rgba(255, 255, 255, 0.1);
-            --bs-pagination-color: white;
-            --bs-pagination-hover-bg: rgba(255, 255, 255, 0.1);
-            --bs-pagination-hover-color: white;
-            --bs-pagination-focus-bg: rgba(255, 255, 255, 0.1);
-            --bs-pagination-active-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --bs-pagination-active-border-color: transparent;
+            --bs-pagination-bg: white;
+            --bs-pagination-border-color: var(--border-color);
+            --bs-pagination-color: var(--text-main);
+            --bs-pagination-active-bg: var(--accent-color);
+            --bs-pagination-active-border-color: var(--accent-color);
         }
-        .page-link {
-            border-radius: 8px !important;
-            margin: 0 4px;
-        }
-
-        .author-text {
-            color: #94a3b8;
-        }
+        .page-link { border-radius: 10px !important; margin: 0 4px; }
     </style>
 </head>
 <body>
-    <!-- Background Orbs -->
-    <div class="bg-orb-1"></div>
-    <div class="bg-orb-2"></div>
-
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 text-white" href="{{ url('/') }}">
-                <div class="bg-primary text-white rounded p-1" style="background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
+                <div class="bg-primary text-white rounded p-1" style="background: var(--accent-color) !important;">
                     <i class="bi bi-book-half fs-5"></i>
                 </div>
                 <span class="fw-bold fs-5">UITS Research Archive</span>
             </a>
             
             <button class="navbar-toggler border-0 px-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-                <i class="bi bi-list fs-1 text-white"></i>
+                <i class="bi bi-list fs-1 text-dark"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
                     <li class="nav-item">
-                        <a class="nav-link px-3 active fw-bold text-white" href="{{ route('archive') }}">Explore Archive</a>
+                        <a class="nav-link px-3 active fw-bold" href="{{ route('archive') }}">Explore Archive</a>
                     </li>
                     
                     @if (Route::has('login'))
@@ -342,7 +273,7 @@
         <!-- Hero Title -->
         <div class="text-center mb-5">
             <h1 class="page-title">Explore Research.</h1>
-            <p class="fs-5 text-secondary">Discover thousands of thesis papers, articles, and capstone projects.</p>
+            <p class="fs-5 text-muted">Discover thousands of thesis papers, articles, and capstone projects.</p>
         </div>
 
         <!-- Search Box -->
@@ -413,9 +344,9 @@
                 </div>
 
                 <!-- Submit / Settings -->
-                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-secondary border-opacity-25">
-                    <span class="text-secondary small">
-                        Showing <strong class="text-white">{{ $submissions->count() }}</strong> of <strong class="text-white">{{ $submissions->total() }}</strong> results
+                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                    <span class="text-muted small">
+                        Showing <strong class="text-dark">{{ $submissions->count() }}</strong> of <strong class="text-dark">{{ $submissions->total() }}</strong> results
                     </span>
                     <div class="d-flex gap-2">
                         @if(request()->hasAny(['search', 'type', 'department', 'domain', 'session']))
@@ -456,7 +387,7 @@
                         <span class="type-badge badge-{{ strtolower($submission->archive_type) }}">
                             {{ $submission->archive_type }}
                         </span>
-                        <small class="text-secondary" style="font-size: 0.8rem;">
+                        <small class="text-muted" style="font-size: 0.8rem;">
                             {{ $submission->created_at->format('M Y') }}
                         </small>
                     </div>
@@ -466,16 +397,16 @@
 
                     <!-- Meta Data -->
                     <div class="d-flex flex-column gap-2 mb-3 mt-auto">
-                        <div class="d-flex align-items-center text-secondary small">
+                        <div class="d-flex align-items-center text-muted small">
                             <i class="bi bi-person me-2"></i>
-                            <span class="line-clamp-1 author-text">{{ implode(', ', $submission->authors) }}</span>
+                            <span class="line-clamp-1">{{ implode(', ', $submission->authors) }}</span>
                         </div>
-                        <div class="d-flex align-items-center text-secondary small">
+                        <div class="d-flex align-items-center text-muted small">
                             <i class="bi bi-building me-2"></i>
                             <span>{{ $submission->department }}</span>
                         </div>
                         @if($submission->academic_session)
-                        <div class="d-flex align-items-center text-secondary small">
+                        <div class="d-flex align-items-center text-muted small">
                             <i class="bi bi-calendar3 me-2"></i>
                             <span>{{ $submission->academic_session }}</span>
                         </div>
@@ -510,8 +441,8 @@
                                     </span>
                                     @endif
                                 </div>
-                                <h3 class="modal-title fs-4 fw-bold text-white lh-base">{{ $submission->title }}</h3>
-                                <p class="text-secondary mb-0 mt-3 d-flex align-items-center gap-2">
+                                <h3 class="modal-title fs-4 fw-bold lh-base">{{ $submission->title }}</h3>
+                                <p class="text-muted mb-0 mt-3 d-flex align-items-center gap-2">
                                     <i class="bi bi-person-circle fs-5"></i>
                                     {{ implode(', ', $submission->authors) }}
                                 </p>
@@ -544,7 +475,7 @@
                             <!-- Domains -->
                             @if(!empty($submission->research_domains))
                             <div class="mb-4">
-                                <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
                                     <i class="bi bi-tags text-primary"></i> Research Domains
                                 </h6>
                                 <div class="d-flex flex-wrap gap-2">
@@ -558,10 +489,10 @@
                             <!-- Abstract -->
                             @if($submission->abstract)
                             <div class="mb-4">
-                                <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
                                     <i class="bi bi-file-text text-primary"></i> Abstract
                                 </h6>
-                                <p class="text-secondary lh-lg mb-0" style="font-size: 0.95rem; white-space: pre-wrap;">{{ $submission->abstract }}</p>
+                                <p class="text-muted lh-lg mb-0" style="font-size: 0.95rem; white-space: pre-wrap;">{{ $submission->abstract }}</p>
                             </div>
                             @endif
 
@@ -569,7 +500,7 @@
 
                             <!-- Links -->
                             <div class="mb-1">
-                                <h6 class="text-white fw-bold mb-3 d-flex align-items-center gap-2">
+                                <h6 class="fw-bold mb-3 d-flex align-items-center gap-2">
                                     <i class="bi bi-link-45deg text-primary"></i> Resources & Links
                                 </h6>
                                 <div class="d-flex flex-column gap-2">

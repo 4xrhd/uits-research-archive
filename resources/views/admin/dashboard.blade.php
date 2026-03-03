@@ -1,278 +1,179 @@
 @extends('layouts.app')
 
 @section('content')
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-            <div class="bg-primary text-white rounded p-2 me-2">
-                <i class="bi bi-shield-check"></i>
-            </div>
-            <div>
-                <div class="fw-bold">Admin Panel</div>
-                <small class="text-muted" style="font-size: 0.7rem;">UITS Research Archive</small>
-            </div>
-        </a>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('dashboard') }}">My Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('archive') }}">Public Archive</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.users') }}">User Management</a>
-                </li>
-                <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-secondary btn-sm ms-2">
-                            <i class="bi bi-box-arrow-right me-1"></i> Logout
-                        </button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-
-<div class="container my-5">
+<div class="container my-5 pt-4">
     <!-- Header -->
-    <div class="mb-4">
-        <h2 class="fw-bold mb-1">Admin Dashboard</h2>
-        <p class="text-muted">Review and manage research submissions</p>
-    </div>
-    <!-- Success/Error Messages -->
-    @if(session('success'))
-        <div style="color: green; border: 1px solid #cfc; padding: 8px; margin-bottom: 10px;">
-            {{ session('success') }}
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
+        <div>
+            <h2 class="fw-bold mb-1">Administrative Overview</h2>
+            <p class="text-muted mb-0">Monitor platform activity and manage research publications.</p>
         </div>
-    @endif
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.submissions') }}" class="btn btn-primary px-4 py-2 rounded-3 fw-bold">
+                <i class="bi bi-list-check me-2"></i> Manage Submissions
+            </a>
+        </div>
+    </div>
 
     <!-- Stats Cards -->
-    <div class="row g-3 mb-5">
+    <div class="row g-4 mb-5">
         <div class="col-md-3">
-            <div class="card stat-card">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-muted small mb-1">Total Submissions</h6>
-                            <h2 class="mb-0">{{ $stats['total'] }}</h2>
-                        </div>
-                        <i class="bi bi-file-text" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-files fs-4 text-primary"></i>
                     </div>
+                    <h6 class="text-muted small text-uppercase fw-bold mb-2">Total Works</h6>
+                    <h2 class="fw-bold mb-0">{{ $stats['total'] }}</h2>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card stat-card-warning">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-muted small mb-1">Pending Review</h6>
-                            <h2 class="mb-0 text-warning">{{ $stats['pending'] }}</h2>
-                        </div>
-
-                        <i class="bi bi-clock text-warning" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-clock-history fs-4 text-warning"></i>
                     </div>
+                    <h6 class="text-muted small text-uppercase fw-bold mb-2">Pending Review</h6>
+                    <h2 class="fw-bold mb-0">{{ $stats['pending'] }}</h2>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card stat-card-success">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-muted small mb-1">Approved</h6>
-                            <h2 class="mb-0 text-success">{{ $stats['approved'] }}</h2>
-
-                        </div>
-                        <i class="bi bi-check-circle text-success" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-check2-all fs-4 text-success"></i>
                     </div>
+                    <h6 class="text-muted small text-uppercase fw-bold mb-2">Approved</h6>
+                    <h2 class="fw-bold mb-0">{{ $stats['approved'] }}</h2>
                 </div>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card stat-card-danger">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h6 class="text-muted small mb-1">Rejected</h6>
-
-                            <h2 class="mb-0 text-danger">{{ $stats['rejected'] }}</h2>
-                        </div>
-                        <i class="bi bi-x-circle text-danger" style="font-size: 2rem; opacity: 0.3;"></i>
+                    <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-3 mb-3" style="width: 60px; height: 60px;">
+                        <i class="bi bi-x-circle fs-4 text-danger"></i>
                     </div>
+                    <h6 class="text-muted small text-uppercase fw-bold mb-2">Rejected</h6>
+                    <h2 class="fw-bold mb-0">{{ $stats['rejected'] }}</h2>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Submissions Table -->
-    <div class="card">
-        <div class="card-header bg-white">
-            <div class="d-flex justify-content-between align-items-center">
-
-                <div>
-                    <h5 class="mb-0">Submission Review</h5>
-                    <small class="text-muted">Review, approve, or reject research submissions</small>
-                </div>
-                <a href="{{ route('admin.submissions') }}" class="btn btn-primary btn-sm">
-                    View All Submissions
-                </a>
-            </div>
-        </div>
-        <div class="card-body">
-            <!-- Filter Tabs -->
-            <ul class="nav nav-pills mb-4">
-                <li class="nav-item">
-                    <a class="nav-link {{ request('status', 'pending') == 'pending' ? 'active' : '' }}" 
-                       href="{{ route('admin.submissions', ['status' => 'pending']) }}">
-                        Pending ({{ $stats['pending'] }})
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request('status') == 'all' ? 'active' : '' }}" 
-                       href="{{ route('admin.submissions', ['status' => 'all']) }}">
-                        All ({{ $stats['total'] }})
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request('status') == 'Approved' ? 'active' : '' }}" 
-                       href="{{ route('admin.submissions', ['status' => 'Approved']) }}">
-                        Approved ({{ $stats['approved'] }})
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request('status') == 'Rejected' ? 'active' : '' }}" 
-                       href="{{ route('admin.submissions', ['status' => 'Rejected']) }}">
-                        Rejected ({{ $stats['rejected'] }})
-                    </a>
-                </li>
-            </ul>
-
-            <!-- Recent Submissions -->
-            @if($recentSubmissions->count() == 0)
-            <div class="text-center py-5">
-                <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
-                <h5 class="mt-4 text-muted">No pending submissions</h5>
-            </div>
-            @else
-            <div class="list-group">
-                @foreach($recentSubmissions as $submission)
-                <div class="list-group-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <!-- Badges -->
-                            <div class="mb-2">
-                                <span class="badge badge-{{ strtolower($submission->archive_type) }} me-2">
-                                    {{ $submission->archive_type }}
-                                </span>
-                                <span class="badge badge-{{ strtolower($submission->status) }}">
-                                    {{ $submission->status }}
-                                </span>
-                            </div>
-
-                            <!-- Title & Info -->
-                            <h6 class="mb-2">{{ $submission->title }}</h6>
-                            <p class="small text-muted mb-2">
-                                By {{ implode(', ', $submission->authors) }} ({{ $submission->user->email }})
-                            </p>
-                            <p class="small text-muted mb-2">
-                                {{ $submission->department }} • Submitted {{ $submission->created_at->format('M d, Y') }}
-                            </p>
-
-                            <!-- Domains -->
-                            @if(!empty($submission->research_domains))
-                            <div class="d-flex flex-wrap gap-1">
-                                @foreach(array_slice($submission->research_domains, 0, 4) as $domain)
-                                <span class="badge bg-light text-dark small">{{ $domain }}</span>
-                                @endforeach
-                                @if(count($submission->research_domains) > 4)
-                                <span class="badge bg-light text-dark small">+{{ count($submission->research_domains) - 4 }}</span>
-                                @endif
-                            </div>
-                            @endif
-                        </div>
-
-                        <div class="col-md-4 text-end">
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-outline-primary btn-sm" 
-                                        data-bs-toggle="modal" data-bs-target="#viewModal{{ $submission->id }}">
-                                    <i class="bi bi-eye me-1"></i>View
-                                </button>
-                                @if($submission->status === 'Pending')
-                                <button type="button" class="btn btn-success btn-sm" 
-                                        data-bs-toggle="modal" data-bs-target="#reviewModal{{ $submission->id }}" 
-                                        data-action="Approved">
-                                    <i class="bi bi-check-circle me-1"></i>Approve
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm" 
-                                        data-bs-toggle="modal" data-bs-target="#reviewModal{{ $submission->id }}" 
-                                        data-action="Rejected">
-                                    <i class="bi bi-x-circle me-1"></i>Reject
-                                </button>
-                                @endif
-                                <a href="{{ route('admin.submissions.edit', $submission->id) }}" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-pencil me-1"></i>Edit
-                                </a>
-                            </div>
-                        </div>
+    <!-- Recent Activity Section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-white py-4 px-4 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="fw-bold mb-0">Recent Submissions</h5>
+                        <p class="text-muted small mb-0">Lastest works awaiting your attention</p>
                     </div>
+                    <a href="{{ route('admin.submissions', ['status' => 'pending']) }}" class="btn btn-link text-decoration-none fw-bold small">Review All <i class="bi bi-arrow-right ms-1"></i></a>
                 </div>
+                <div class="card-body p-0">
+                    @if($recentSubmissions->count() == 0)
+                    <div class="text-center py-5">
+                        <i class="bi bi-inbox text-muted fs-1"></i>
+                        <h5 class="mt-3 text-muted">Awaiting new submissions</h5>
+                    </div>
+                    @else
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="px-4 py-3 border-0 small text-uppercase text-muted fw-bold">Submission</th>
+                                    <th class="py-3 border-0 small text-uppercase text-muted fw-bold">Authors / User</th>
+                                    <th class="py-3 border-0 small text-uppercase text-muted fw-bold">Department</th>
+                                    <th class="py-3 border-0 small text-uppercase text-muted fw-bold text-end px-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentSubmissions as $submission)
+                                <tr>
+                                    <td class="px-4 py-4">
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-light rounded p-2 me-3 d-none d-md-block">
+                                                <i class="bi bi-journal-bookmark text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-bold text-dark">{{ Str::limit($submission->title, 60) }}</div>
+                                                <div class="badge badge-{{ strtolower($submission->archive_type) }} mt-1">
+                                                    {{ $submission->archive_type }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">{{ implode(', ', $submission->authors) }}</div>
+                                        <div class="small text-muted">{{ $submission->user->email }}</div>
+                                    </td>
+                                    <td>{{ $submission->department }}</td>
+                                    <td class="text-end px-4">
+                                        <div class="d-flex justify-content-end gap-2">
+                                            <button type="button" class="btn btn-light btn-sm rounded-3 px-3 fw-bold" 
+                                                    data-bs-toggle="modal" data-bs-target="#viewModal{{ $submission->id }}">
+                                                View
+                                            </button>
+                                            @if($submission->status === 'Pending')
+                                            <button type="button" class="btn btn-success btn-sm rounded-3 px-3 fw-bold" 
+                                                    data-bs-toggle="modal" data-bs-target="#reviewModal{{ $submission->id }}" 
+                                                    onclick="prepareReview('{{ $submission->id }}', 'Approved')">
+                                                Approve
+                                            </button>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
 
-                <!-- Review Modal -->
-                <div class="modal fade" id="reviewModal{{ $submission->id }}" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form action="{{ route('admin.submissions.review', $submission->id) }}" method="POST">
-                                @csrf
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Review Submission</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h6 class="mb-2">{{ $submission->title }}</h6>
-                                    <p class="small text-muted mb-4">By {{ implode(', ', $submission->authors) }}</p>
-
-                                    <input type="hidden" name="status" id="reviewStatus{{ $submission->id }}">
-
-                                    <div class="mb-3">
-                                        <label class="form-label">Remarks (Optional)</label>
-                                        <textarea class="form-control" name="remarks" rows="4" 
-                                                  placeholder="Add any comments or feedback for the author..."></textarea>
+                                <!-- Simple Review Modal (Hidden) -->
+                                <div class="modal fade" id="reviewModal{{ $submission->id }}" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content border-0 shadow-lg rounded-4">
+                                            <form action="{{ route('admin.submissions.review', $submission->id) }}" method="POST">
+                                                @csrf
+                                                <div class="modal-header border-bottom py-4 px-4">
+                                                    <h5 class="fw-bold mb-0">Decide Submission</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body p-4">
+                                                    <input type="hidden" name="status" id="reviewStatus{{ $submission->id }}">
+                                                    <div class="mb-3">
+                                                        <label class="form-label fw-bold small text-uppercase text-muted">Feedback Remarks (Optional)</label>
+                                                        <textarea class="form-control" name="remarks" rows="4" 
+                                                                  placeholder="Add any comments for the author..."></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer border-top p-3 d-flex gap-2">
+                                                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                                                    <button type="submit" class="btn btn-primary px-4 fw-bold flex-fill">Confirm Decision</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-success" onclick="submitReview({{ $submission->id }}, 'Approved')">
-                                        Approve Submission
-                                    </button>
-                                    <button type="button" class="btn btn-danger" onclick="submitReview({{ $submission->id }}, 'Rejected')">
-                                        Reject Submission
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                    @endif
                 </div>
-                @endforeach
             </div>
-            @endif
         </div>
     </div>
 </div>
 
 @push('scripts')
 <script>
-    function submitReview(submissionId, action) {
-        document.getElementById('reviewStatus' + submissionId).value = action;
-        document.querySelector('#reviewModal' + submissionId + ' form').submit();
+    function prepareReview(submissionId, status) {
+        const input = document.getElementById('reviewStatus' + submissionId);
+        if (input) input.value = status;
     }
 </script>
 @endpush

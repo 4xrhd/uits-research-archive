@@ -1,142 +1,134 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-            <div class="bg-primary text-white rounded p-2 me-2">
-                <i class="bi bi-shield-check"></i>
-            </div>
-            <div>
-                <div class="fw-bold">Admin Panel</div>
-                <small class="text-muted" style="font-size: 0.7rem;">Edit Submission</small>
-            </div>
-        </a>
-    </div>
-</nav>
-
-<div class="container my-5">
+<div class="container my-5 pt-4">
     <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card shadow">
-                <div class="card-header bg-white">
-                    <h4 class="mb-1">Edit Submission (Admin)</h4>
-                    <p class="text-muted small mb-0">Update all fields including file links and status</p>
+        <div class="col-lg-9">
+            <!-- Back Button -->
+            <div class="mb-4">
+                <a href="{{ route('admin.submissions') }}" class="btn btn-link text-decoration-none p-0 text-muted small fw-bold">
+                    <i class="bi bi-arrow-left me-1"></i> Back to All Submissions
+                </a>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-white py-4 px-4 border-bottom">
+                    <h4 class="fw-bold mb-1">Administrative Oversight</h4>
+                    <p class="text-muted small mb-0">Modify, review, and finalize archive data.</p>
                 </div>
-                <div class="card-body p-4">
+                <div class="card-body p-4 p-md-5">
                     <form action="{{ route('admin.submissions.update', $submission->id) }}" method="POST">
                         @csrf
                         @method('PUT')
 
-                        <!-- Submitter Info (Read-only) -->
-                        <div class="alert alert-info mb-4">
-                            <strong>Submitted by:</strong> {{ $submission->user->name }} ({{ $submission->user->email }})<br>
-                            <strong>Submitted on:</strong> {{ $submission->created_at->format('F d, Y h:i A') }}
+                        <!-- Submitter Context -->
+                        <div class="bg-light rounded-4 p-4 mb-5 border">
+                            <div class="row g-3">
+                                <div class="col-md-6 text-center text-md-start">
+                                    <div class="small fw-bold text-uppercase text-muted mb-1">Submission Origin</div>
+                                    <div class="fw-bold text-primary">{{ $submission->user->name }}</div>
+                                    <div class="small text-muted">{{ $submission->user->email }}</div>
+                                </div>
+                                <div class="col-md-6 text-center text-md-end border-md-start border-0">
+                                    <div class="small fw-bold text-uppercase text-muted mb-1">Initial Timestamp</div>
+                                    <div class="fw-bold text-dark">{{ $submission->created_at->format('M d, Y') }}</div>
+                                    <div class="small text-muted">{{ $submission->created_at->format('h:i A') }}</div>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Status & Admin Remarks -->
-                        <div class="row mb-4">
+                        <div class="row g-4 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Status *</label>
-                                <select class="form-select" name="status" required>
-                                    <option value="Pending" {{ $submission->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="Approved" {{ $submission->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                    <option value="Rejected" {{ $submission->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                <label class="form-label fw-bold small text-uppercase text-muted">Platform Status *</label>
+                                <select class="form-select @error('status') is-invalid @enderror" name="status" required>
+                                    <option value="Pending" {{ old('status', $submission->status) == 'Pending' ? 'selected' : '' }}>Pending Review</option>
+                                    <option value="Approved" {{ old('status', $submission->status) == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                    <option value="Rejected" {{ old('status', $submission->status) == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Archive Type *</label>
+                                <select class="form-select @error('archive_type') is-invalid @enderror" name="archive_type" required>
+                                    <option value="Research" {{ old('archive_type', $submission->archive_type) == 'Research' ? 'selected' : '' }}>Research Paper</option>
+                                    <option value="Article" {{ old('archive_type', $submission->archive_type) == 'Article' ? 'selected' : '' }}>Article</option>
+                                    <option value="Capstone" {{ old('archive_type', $submission->archive_type) == 'Capstone' ? 'selected' : '' }}>Capstone Project</option>
+                                    <option value="Thesis" {{ old('archive_type', $submission->archive_type) == 'Thesis' ? 'selected' : '' }}>Thesis</option>
                                 </select>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Admin Remarks</label>
-                            <textarea class="form-control" name="admin_remarks" rows="3" placeholder="Add feedback for the author">{{ $submission->admin_remarks }}</textarea>
+                            <label class="form-label fw-bold small text-uppercase text-muted">Moderator Observations / Remarks</label>
+                            <textarea class="form-control" name="admin_remarks" rows="3" placeholder="Will be visible to the author">{{ old('admin_remarks', $submission->admin_remarks) }}</textarea>
                         </div>
 
-                        <hr class="my-4">
+                        <hr class="my-5 border-light">
 
-                        <!-- Archive Type & Author Role -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Archive Type *</label>
-                                <select class="form-select" name="archive_type" required>
-                                    <option value="Research" {{ $submission->archive_type == 'Research' ? 'selected' : '' }}>Research Paper</option>
-                                    <option value="Article" {{ $submission->archive_type == 'Article' ? 'selected' : '' }}>Article</option>
-                                    <option value="Capstone" {{ $submission->archive_type == 'Capstone' ? 'selected' : '' }}>Capstone Project</option>
-                                    <option value="Thesis" {{ $submission->archive_type == 'Thesis' ? 'selected' : '' }}>Thesis</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Author Role *</label>
-                                <select class="form-select" name="author_role" required>
-                                    <option value="Student" {{ $submission->author_role == 'Student' ? 'selected' : '' }}>Student</option>
-                                    <option value="Faculty" {{ $submission->author_role == 'Faculty' ? 'selected' : '' }}>Faculty</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Title -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Research Title *</label>
-                            <input type="text" class="form-control" name="title" value="{{ $submission->title }}" required>
+                            <label class="form-label fw-bold small text-uppercase text-muted">Research Title *</label>
+                            <input type="text" class="form-control form-control-lg fw-bold" name="title" value="{{ old('title', $submission->title) }}" required>
                         </div>
 
-                        <!-- Department & Batch -->
-                        <div class="row mb-4">
+                        <div class="row g-4 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Department *</label>
+                                <label class="form-label fw-bold small text-uppercase text-muted">Academic Department *</label>
                                 <select class="form-select" name="department" required>
                                     @foreach($departments as $dept)
-                                    <option value="{{ $dept->name }}" {{ $submission->department == $dept->name ? 'selected' : '' }}>
+                                    <option value="{{ $dept->name }}" {{ old('department', $submission->department) == $dept->name ? 'selected' : '' }}>
                                         {{ $dept->name }}
                                     </option>
                                     @endforeach
                                 </select>
                             </div>
-
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Batch/Year</label>
-                                <input type="text" class="form-control" name="batch" value="{{ $submission->batch }}">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Author Role *</label>
+                                <select class="form-select" name="author_role" required>
+                                    <option value="Student" {{ old('author_role', $submission->author_role) == 'Student' ? 'selected' : '' }}>Student</option>
+                                    <option value="Faculty" {{ old('author_role', $submission->author_role) == 'Faculty' ? 'selected' : '' }}>Faculty Staff</option>
+                                </select>
                             </div>
                         </div>
 
-                        <!-- Academic Session -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">Academic Session</label>
-                            <input type="text" class="form-control" name="academic_session" value="{{ $submission->academic_session }}">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Batch / Graduation Year</label>
+                                <input type="text" class="form-control" name="batch" value="{{ old('batch', $submission->batch) }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold small text-uppercase text-muted">Academic Cycle</label>
+                                <input type="text" class="form-control" name="academic_session" value="{{ old('academic_session', $submission->academic_session) }}">
+                            </div>
                         </div>
 
-                        <!-- Authors -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Authors *</label>
+                            <label class="form-label fw-bold small text-uppercase text-muted">Primary Authors *</label>
                             <div id="authorsContainer">
-                                @foreach($submission->authors as $index => $author)
+                                @foreach(old('authors', $submission->authors) as $index => $author)
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control" name="authors[]" value="{{ $author }}" required>
                                     @if($index > 0)
-                                    <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
-                                        <i class="bi bi-x"></i>
+                                    <button type="button" class="btn btn-light" onclick="this.parentElement.remove()">
+                                        <i class="bi bi-x text-danger"></i>
                                     </button>
                                     @endif
                                 </div>
                                 @endforeach
                             </div>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addAuthor()">
-                                <i class="bi bi-plus me-1"></i>Add Author
+                            <button type="button" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold" onclick="addAuthor()">
+                                <i class="bi bi-plus-circle me-1"></i> Add Another Author
                             </button>
                         </div>
 
-                        <!-- Research Domains -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">Research Domains</label>
-                            <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
-                                <div class="row g-2">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Research Domains</label>
+                            <div class="bg-light rounded-4 p-4 border" style="max-height: 250px; overflow-y: auto;">
+                                <div class="row g-3">
                                     @foreach($domains as $domain)
                                     <div class="col-md-4">
-                                        <div class="form-check">
+                                        <div class="form-check custom-check">
                                             <input class="form-check-input" type="checkbox" name="research_domains[]" 
                                                    value="{{ $domain->name }}" id="domain{{ $domain->id }}"
-                                                   {{ in_array($domain->name, $submission->research_domains ?? []) ? 'checked' : '' }}>
+                                                   {{ in_array($domain->name, old('research_domains', $submission->research_domains ?? [])) ? 'checked' : '' }}>
                                             <label class="form-check-label small" for="domain{{ $domain->id }}">
                                                 {{ $domain->name }}
                                             </label>
@@ -147,82 +139,53 @@
                             </div>
                         </div>
 
-                        <!-- PDF URL (Admin can edit) -->
+                        <hr class="my-5 border-light">
+
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">
-                                <i class="bi bi-file-pdf me-1"></i>PDF URL or Google Drive Link
-                            </label>
-                            <input type="url" class="form-control" name="pdf_url" value="{{ $submission->pdf_url }}" 
-                                   placeholder="https://drive.google.com/... or direct PDF URL">
-                            <small class="form-text text-muted">
-                                Admin can update file links at any time
-                            </small>
+                            <label class="form-label fw-bold small text-uppercase text-muted">PDF Access / Primary Link</label>
+                            <input type="url" class="form-control" name="pdf_url" value="{{ old('pdf_url', $submission->pdf_url) }}">
                         </div>
 
-                        <!-- Drive Links (Admin can edit) -->
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">
-                                <i class="bi bi-cloud me-1"></i>Additional Google Drive Links
-                            </label>
+                            <label class="form-label fw-bold small text-uppercase text-muted">Resource Ecosystem (Drive / External)</label>
                             <div id="driveLinksContainer">
-                                @if(!empty($submission->drive_links))
-                                    @foreach($submission->drive_links as $link)
-                                    <div class="input-group mb-2">
-                                        <input type="url" class="form-control" name="drive_links[]" value="{{ $link }}">
-                                        <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    </div>
-                                    @endforeach
-                                @else
+                                @forelse(old('drive_links', $submission->drive_links ?? []) as $link)
+                                <div class="input-group mb-2">
+                                    <input type="url" class="form-control" name="drive_links[]" value="{{ $link }}">
+                                    <button type="button" class="btn btn-light" onclick="this.parentElement.remove()">
+                                        <i class="bi bi-x text-danger"></i>
+                                    </button>
+                                </div>
+                                @empty
                                 <input type="url" class="form-control mb-2" name="drive_links[]" placeholder="https://drive.google.com/...">
-                                @endif
+                                @endforelse
                             </div>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addDriveLink()">
-                                <i class="bi bi-plus me-1"></i>Add Drive Link
+                            <button type="button" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold" onclick="addDriveLink()">
+                                <i class="bi bi-plus-circle me-1"></i> Add Resource Link
                             </button>
                         </div>
 
-                        <!-- External Links -->
+                        <hr class="my-5 border-light">
+
                         <div class="mb-4">
-                            <label class="form-label fw-semibold">External Links</label>
-                            <div id="linksContainer">
-                                @if(!empty($submission->external_links))
-                                    @foreach($submission->external_links as $link)
-                                    <div class="input-group mb-2">
-                                        <input type="url" class="form-control" name="external_links[]" value="{{ $link }}">
-                                        <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
-                                            <i class="bi bi-x"></i>
-                                        </button>
-                                    </div>
-                                    @endforeach
-                                @else
-                                <input type="url" class="form-control mb-2" name="external_links[]" placeholder="https://...">
-                                @endif
+                            <label class="form-label fw-bold small text-uppercase text-muted">Abstract Overview</label>
+                            <textarea class="form-control" name="abstract" rows="6">{{ old('abstract', $submission->abstract) }}</textarea>
+                        </div>
+
+                        <div class="mb-5">
+                            <label class="form-label fw-bold small text-uppercase text-muted">Original Author Metadata/Notes</label>
+                            <div class="p-3 bg-light border-start border-4 rounded-3 small text-muted">
+                                {{ $submission->author_comments ?: 'No original comments left by author.' }}
+                                <input type="hidden" name="author_comments" value="{{ $submission->author_comments }}">
                             </div>
-                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addExternalLink()">
-                                <i class="bi bi-plus me-1"></i>Add Link
+                        </div>
+
+                        <!-- Final Actions -->
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-end pt-4 border-top">
+                            <a href="{{ route('admin.submissions') }}" class="btn btn-light px-5 py-3 rounded-3 fw-bold order-2 order-md-1">Cancel Changes</a>
+                            <button type="submit" class="btn btn-primary px-5 py-3 rounded-3 fw-bold order-1 order-md-2">
+                                <i class="bi bi-shield-lock-fill me-2"></i> Commit Updates
                             </button>
-                        </div>
-
-                        <!-- Abstract -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">Abstract / Results Summary</label>
-                            <textarea class="form-control" name="abstract" rows="5">{{ $submission->abstract }}</textarea>
-                        </div>
-
-                        <!-- Author Comments -->
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">Author Comments</label>
-                            <textarea class="form-control" name="author_comments" rows="3">{{ $submission->author_comments }}</textarea>
-                        </div>
-
-                        <!-- Submit Buttons -->
-                        <div class="d-flex gap-3">
-                            <button type="submit" class="btn btn-primary flex-fill">
-                                <i class="bi bi-save me-2"></i>Save Changes
-                            </button>
-                            <a href="{{ route('admin.submissions') }}" class="btn btn-outline-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -239,21 +202,8 @@
         div.className = 'input-group mb-2';
         div.innerHTML = `
             <input type="text" class="form-control" name="authors[]" placeholder="Author name">
-            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
-                <i class="bi bi-x"></i>
-            </button>
-        `;
-        container.appendChild(div);
-    }
-
-    function addExternalLink() {
-        const container = document.getElementById('linksContainer');
-        const div = document.createElement('div');
-        div.className = 'input-group mb-2';
-        div.innerHTML = `
-            <input type="url" class="form-control" name="external_links[]" placeholder="https://...">
-            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
-                <i class="bi bi-x"></i>
+            <button type="button" class="btn btn-light" onclick="this.parentElement.remove()">
+                <i class="bi bi-x text-danger"></i>
             </button>
         `;
         container.appendChild(div);
@@ -265,8 +215,8 @@
         div.className = 'input-group mb-2';
         div.innerHTML = `
             <input type="url" class="form-control" name="drive_links[]" placeholder="https://drive.google.com/...">
-            <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
-                <i class="bi bi-x"></i>
+            <button type="button" class="btn btn-light" onclick="this.parentElement.remove()">
+                <i class="bi bi-x text-danger"></i>
             </button>
         `;
         container.appendChild(div);

@@ -1,25 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-            <div class="bg-primary text-white rounded p-2 me-2">
-                <i class="bi bi-book"></i>
-            </div>
-            <div class="fw-bold">UITS Research Archive</div>
-        </a>
-    </div>
-</nav>
-
-<div class="container" style="margin-top: 4rem; margin-bottom: 4rem;">
+<div class="container" style="margin-top: 6rem; margin-bottom: 5rem;">
     <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-6">
-            <div class="card shadow border-0 rounded-4">
+        <div class="col-md-7 col-lg-5">
+            <div class="card border rounded-4">
                 <div class="card-body p-4 p-md-5">
-                    <div class="text-center mb-4">
-                        <h3 class="fw-bold text-dark">Create an Account</h3>
+                    <div class="text-center mb-5">
+                        <div class="bg-primary text-white d-inline-flex align-items-center justify-content-center rounded-4 p-3 mb-4" style="background-color: var(--accent-color) !important;">
+                            <i class="bi bi-person-plus fs-2"></i>
+                        </div>
+                        <h3 class="fw-bold">Create Account</h3>
                         <p class="text-muted">Join the UITS Research Archive</p>
                     </div>
 
@@ -28,68 +19,45 @@
 
                         <!-- Name -->
                         <div class="mb-4">
-                            <label for="name" class="form-label fw-semibold text-dark">Full Name</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person"></i></span>
-                                <input id="name" type="text" class="form-control bg-light border-start-0 @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Enter your full name">
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <label for="name" class="form-label fw-semibold">Full Name</label>
+                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus placeholder="John Doe">
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Email Address -->
                         <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold text-dark">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
-                                <input id="email" type="email" class="form-control bg-light border-start-0 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="Enter your email address">
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <label for="email" class="form-label fw-semibold">Email Address</label>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required placeholder="name@uits.edu.bd">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Password -->
                         <div class="mb-4">
-                            <label for="password" class="form-label fw-semibold text-dark">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
-                                <input id="password" type="password" class="form-control bg-light border-start-0 @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Create a strong password">
-                                @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <label for="password" class="form-label fw-semibold">Password</label>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="Min. 8 characters">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Confirm Password -->
-                        <div class="mb-4">
-                            <label for="password_confirmation" class="form-label fw-semibold text-dark">Confirm Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock-fill"></i></span>
-                                <input id="password_confirmation" type="password" class="form-control bg-light border-start-0 @error('password_confirmation') is-invalid @enderror" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat your password">
-                                @error('password_confirmation')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                        <div class="mb-5">
+                            <label for="password_confirmation" class="form-label fw-semibold">Confirm Password</label>
+                            <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required placeholder="Repeat password">
                         </div>
 
                         <div class="d-grid mb-4">
-                            <button type="submit" class="btn btn-primary btn-lg rounded-3 fw-semibold">
+                            <button type="submit" class="btn btn-primary btn-lg">
                                 Create Account
                             </button>
                         </div>
                         
-                        <div class="text-center">
-                            <p class="text-muted mb-0">Already have an account? <a href="{{ route('login') }}" class="text-primary text-decoration-none fw-bold">Sign in here</a></p>
+                        <div class="text-center small">
+                            <p class="text-muted">Already have an account? <a href="{{ route('login') }}" class="text-primary text-decoration-none fw-bold">Sign in</a></p>
                         </div>
                     </form>
                 </div>

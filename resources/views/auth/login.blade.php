@@ -1,26 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-            <div class="bg-primary text-white rounded p-2 me-2">
-                <i class="bi bi-book"></i>
-            </div>
-            <div class="fw-bold">UITS Research Archive</div>
-        </a>
-    </div>
-</nav>
-
-<div class="container" style="margin-top: 5rem; margin-bottom: 5rem;">
+<div class="container" style="margin-top: 8rem; margin-bottom: 5rem;">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow border-0 rounded-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card border rounded-4">
                 <div class="card-body p-4 p-md-5">
-                    <div class="text-center mb-4">
-                        <h3 class="fw-bold text-dark">Welcome Back</h3>
-                        <p class="text-muted">Sign in to the UITS Research Archive</p>
+                    <div class="text-center mb-5">
+                        <div class="bg-primary text-white d-inline-flex align-items-center justify-content-center rounded-4 p-3 mb-4" style="background-color: var(--accent-color) !important;">
+                            <i class="bi bi-shield-lock fs-2"></i>
+                        </div>
+                        <h3 class="fw-bold">Sign In</h3>
+                        <p class="text-muted">Access the UITS Research Archive</p>
                     </div>
 
                     <!-- Session Status -->
@@ -35,57 +26,45 @@
 
                         <!-- Email Address -->
                         <div class="mb-4">
-                            <label for="email" class="form-label fw-semibold text-dark">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
-                                <input id="email" type="email" class="form-control bg-light border-start-0 @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="Enter your email">
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <label for="email" class="form-label fw-semibold">Email Address</label>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autofocus placeholder="name@uits.edu.bd">
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Password -->
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-1">
-                                <label for="password" class="form-label fw-semibold text-dark mb-0">Password</label>
+                                <label for="password" class="form-label fw-semibold mb-0">Password</label>
                                 @if (Route::has('password.request'))
-                                    <a class="text-decoration-none small text-primary" href="{{ route('password.request') }}">
-                                        Forgot password?
+                                    <a class="text-decoration-none small" href="{{ route('password.request') }}">
+                                        Forgot?
                                     </a>
                                 @endif
                             </div>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
-                                <input id="password" type="password" class="form-control bg-light border-start-0 @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Enter your password">
-                                @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required placeholder="••••••••">
+                            @error('password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <!-- Remember Me -->
-                        <div class="mb-4 form-check">
+                        <div class="mb-5 form-check small">
                             <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
                             <label class="form-check-label text-muted" for="remember_me">
-                                Remember me
+                                Stay signed in
                             </label>
                         </div>
 
                         <div class="d-grid mb-4">
-                            <button type="submit" class="btn btn-primary btn-lg rounded-3 fw-semibold">
+                            <button type="submit" class="btn btn-primary btn-lg">
                                 Sign In
                             </button>
                         </div>
                         
-                        <div class="text-center">
-                            @if (Route::has('register'))
-                                <p class="text-muted mb-0">Don't have an account? <a href="{{ route('register') }}" class="text-primary text-decoration-none fw-bold">Register here</a></p>
-                            @endif
+                        <div class="text-center small">
+                            <p class="text-muted">Need an account? <a href="{{ route('register') }}" class="text-primary text-decoration-none fw-bold">Sign up</a></p>
                         </div>
                     </form>
                 </div>

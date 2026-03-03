@@ -1,139 +1,109 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-            <div class="bg-primary text-white rounded p-2 me-2">
-                <i class="bi bi-shield-check"></i>
-            </div>
-            <div>
-                <div class="fw-bold">Admin Panel</div>
-                <small class="text-muted" style="font-size: 0.7rem;">User Management</small>
-            </div>
-        </a>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('archive') }}">Public Archive</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container my-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container my-5 pt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
         <div>
             <h2 class="fw-bold mb-1">User Management</h2>
-            <p class="text-muted">Manage system users and their roles</p>
+            <p class="text-muted">Manage system users, roles, and platform permissions.</p>
         </div>
     </div>
 
     <!-- Success/Error Messages -->
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4" role="alert">
         <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
     
     @if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4" role="alert">
         <i class="bi bi-exclamation-triangle me-2"></i>{{ session('error') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
 
-    <!-- Filter Tabs -->
-    <ul class="nav nav-pills mb-4">
-        <li class="nav-item">
-            <a class="nav-link {{ !request()->has('role') || request('role') == 'all' ? 'active' : '' }}" 
-               href="{{ route('admin.users', ['role' => 'all']) }}">
-                <i class="bi bi-people me-1"></i>All Users
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request('role') == 'admin' ? 'active' : '' }}" 
-               href="{{ route('admin.users', ['role' => 'admin']) }}">
-                <i class="bi bi-shield-lock me-1"></i>Admins
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request('role') == 'faculty' ? 'active' : '' }}" 
-               href="{{ route('admin.users', ['role' => 'faculty']) }}">
-                <i class="bi bi-person-badge me-1"></i>Faculty
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request('role') == 'student' ? 'active' : '' }}" 
-               href="{{ route('admin.users', ['role' => 'student']) }}">
-                <i class="bi bi-person me-1"></i>Students
-            </a>
-        </li>
-    </ul>
+    <!-- Filter Pills -->
+    <div class="d-flex flex-wrap gap-2 mb-5">
+        <a href="{{ route('admin.users', ['role' => 'all']) }}" 
+           class="btn {{ !request()->has('role') || request('role') == 'all' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4">
+            Total Users
+        </a>
+        <a href="{{ route('admin.users', ['role' => 'admin']) }}" 
+           class="btn {{ request('role') == 'admin' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4">
+            Administrators
+        </a>
+        <a href="{{ route('admin.users', ['role' => 'faculty']) }}" 
+           class="btn {{ request('role') == 'faculty' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4">
+            Faculty
+        </a>
+        <a href="{{ route('admin.users', ['role' => 'student']) }}" 
+           class="btn {{ request('role') == 'student' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4">
+            Students
+        </a>
+    </div>
 
-    <!-- Users List -->
-    <div class="card shadow-sm border-0">
+    <!-- Users List Card -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                    <thead class="bg-light">
                         <tr>
-                            <th scope="col" class="ps-4">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Joined</th>
-                            <th scope="col" class="text-end pe-4">Actions</th>
+                            <th scope="col" class="ps-4 py-3 border-0 small text-uppercase text-muted fw-bold">User Identity</th>
+                            <th scope="col" class="py-3 border-0 small text-uppercase text-muted fw-bold">Platform Role</th>
+                            <th scope="col" class="py-3 border-0 small text-uppercase text-muted fw-bold">Registration</th>
+                            <th scope="col" class="text-end pe-4 py-3 border-0 small text-uppercase text-muted fw-bold">Management</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($users as $user)
                         <tr>
-                            <td class="ps-4">
-                                <div class="d-flex align-items-center mt-2 mb-2">
-                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; font-weight: bold;">
-                                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                            <td class="ps-4 py-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 44px; height: 44px; font-size: 1.1rem;">
+                                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h6 class="mb-0 fw-semibold">{{ $user->name }}</h6>
+                                    <div class="ms-3">
+                                        <div class="fw-bold text-dark">{{ $user->name }}</div>
+                                        <div class="small text-muted">{{ $user->email }}</div>
                                         @if($user->id === auth()->id())
-                                        <span class="badge bg-info mt-1">You</span>
+                                        <span class="badge bg-light text-primary border border-primary-subtle mt-1 small">Current Account</span>
                                         @endif
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ $user->email }}</td>
                             <td>
                                 @if($user->role === 'admin')
-                                    <span class="badge bg-primary">Admin</span>
+                                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill">Administrator</span>
                                 @elseif($user->role === 'faculty')
-                                    <span class="badge bg-info text-dark">Faculty</span>
+                                    <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle px-3 py-2 rounded-pill">Faculty Staff</span>
                                 @else
-                                    <span class="badge bg-secondary">Student</span>
+                                    <span class="badge bg-light text-muted border px-3 py-2 rounded-pill">Student Member</span>
                                 @endif
                             </td>
-                            <td>{{ $user->created_at->format('M d, Y') }}</td>
+                            <td>
+                                <div class="text-dark small">{{ $user->created_at->format('M d, Y') }}</div>
+                                <div class="text-muted small">{{ $user->created_at->diffForHumans() }}</div>
+                            </td>
                             <td class="text-end pe-4">
                                 @if($user->id !== auth()->id())
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="bi bi-gear"></i> Actions
+                                <div class="dropdown d-inline-block">
+                                    <button class="btn btn-light btn-sm rounded-3 dropdown-toggle px-3" data-bs-toggle="dropdown">
+                                        Manage
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    <ul class="dropdown-menu dropdown-menu-end border shadow border-0 rounded-4 mt-2">
                                         @if($user->role !== 'admin')
                                         <li>
                                             <form action="{{ route('admin.users.role', $user->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="role" value="admin">
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bi bi-shield-lock me-2 text-danger"></i> Make Admin
+                                                <button type="submit" class="dropdown-item py-2">
+                                                    <i class="bi bi-shield-check me-2 text-danger"></i> Assign Admin
                                                 </button>
                                             </form>
                                         </li>
@@ -144,8 +114,8 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="role" value="faculty">
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bi bi-person-badge me-2 text-info"></i> Make Faculty
+                                                <button type="submit" class="dropdown-item py-2">
+                                                    <i class="bi bi-person-workspace me-2 text-info"></i> Make Faculty
                                                 </button>
                                             </form>
                                         </li>
@@ -156,28 +126,24 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="role" value="student">
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="bi bi-person me-2 text-secondary"></i> Make Student
+                                                <button type="submit" class="dropdown-item py-2">
+                                                    <i class="bi bi-person-lines-fill me-2 text-secondary"></i> Revoke to Student
                                                 </button>
                                             </form>
                                         </li>
                                         @endif
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
-                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
+                                            <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Terminate this user access permanently?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="dropdown-item text-danger">
-                                                    <i class="bi bi-trash me-2"></i> Delete User
+                                                <button type="submit" class="dropdown-item text-danger py-2">
+                                                    <i class="bi bi-person-x me-2"></i> Delete Permanently
                                                 </button>
                                             </form>
                                         </li>
                                     </ul>
                                 </div>
-                                @else
-                                <button class="btn btn-sm btn-outline-secondary disabled" title="You cannot modify your own account here">
-                                    Current User
-                                </button>
                                 @endif
                             </td>
                         </tr>
@@ -188,15 +154,18 @@
             
             @if($users->count() == 0)
             <div class="text-center py-5">
-                <i class="bi bi-people text-muted" style="font-size: 3rem;"></i>
-                <p class="mt-3 text-muted">No users found.</p>
+                <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-4 mb-3">
+                    <i class="bi bi-people fs-1 text-muted"></i>
+                </div>
+                <h5 class="fw-bold">No accounts found</h5>
+                <p class="text-muted">Adjust your filters to see more results.</p>
             </div>
             @endif
         </div>
     </div>
 
     <!-- Pagination -->
-    <div class="mt-4">
+    <div class="mt-5 d-flex justify-content-center">
         {{ $users->links('pagination::bootstrap-5') }}
     </div>
 </div>

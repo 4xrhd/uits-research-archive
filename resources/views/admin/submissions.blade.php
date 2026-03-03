@@ -1,253 +1,148 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-            <div class="bg-primary text-white rounded p-2 me-2">
-                <i class="bi bi-shield-check"></i>
-            </div>
-            <div>
-                <div class="fw-bold">Admin Panel</div>
-                <small class="text-muted" style="font-size: 0.7rem;">All Submissions</small>
-            </div>
-        </a>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('archive') }}">Public Archive</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container my-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container my-5 pt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
         <div>
-            <h2 class="fw-bold mb-1">All Submissions</h2>
-            <p class="text-muted">Review and manage research submissions</p>
+            <h2 class="fw-bold mb-1">Research Submissions</h2>
+            <p class="text-muted">Review and manage the database of academic works</p>
         </div>
     </div>
 
     <!-- Success Message -->
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 shadow-sm mb-4" role="alert">
         <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
 
-    <!-- Filter Tabs -->
-    <ul class="nav nav-pills mb-4">
-        <li class="nav-item">
-            <a class="nav-link {{ !request()->has('status') || request('status') == 'pending' ? 'active' : '' }}" 
-               href="{{ route('admin.submissions', ['status' => 'pending']) }}">
-                <i class="bi bi-clock me-1"></i>Pending
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request('status') == 'all' ? 'active' : '' }}" 
-               href="{{ route('admin.submissions', ['status' => 'all']) }}">
-                <i class="bi bi-list me-1"></i>All
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request('status') == 'Approved' ? 'active' : '' }}" 
-               href="{{ route('admin.submissions', ['status' => 'Approved']) }}">
-                <i class="bi bi-check-circle me-1"></i>Approved
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ request('status') == 'Rejected' ? 'active' : '' }}" 
-               href="{{ route('admin.submissions', ['status' => 'Rejected']) }}">
-                <i class="bi bi-x-circle me-1"></i>Rejected
-            </a>
-        </li>
-    </ul>
+    <!-- Filter Pills -->
+    <div class="d-flex flex-wrap gap-2 mb-5">
+        <a href="{{ route('admin.submissions', ['status' => 'pending']) }}" 
+           class="btn {{ !request()->has('status') || request('status') == 'pending' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4 fw-bold">
+            Pending Approval
+        </a>
+        <a href="{{ route('admin.submissions', ['status' => 'Approved']) }}" 
+           class="btn {{ request('status') == 'Approved' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4 fw-bold">
+            Approved
+        </a>
+        <a href="{{ route('admin.submissions', ['status' => 'Rejected']) }}" 
+           class="btn {{ request('status') == 'Rejected' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4 fw-bold">
+            Rejected
+        </a>
+        <a href="{{ route('admin.submissions', ['status' => 'all']) }}" 
+           class="btn {{ request('status') == 'all' ? 'btn-primary' : 'btn-light' }} rounded-pill px-4 fw-bold">
+            View All
+        </a>
+    </div>
 
     <!-- Submissions List -->
     @if($submissions->count() == 0)
-    <div class="card">
+    <div class="card border-0 shadow-sm rounded-4 mb-5">
         <div class="card-body text-center py-5">
-            <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
-            <h5 class="mt-4 text-muted">No submissions found</h5>
+            <div class="bg-light d-inline-flex align-items-center justify-content-center rounded-circle p-4 mb-3">
+                <i class="bi bi-inbox fs-1 text-muted"></i>
+            </div>
+            <h5 class="fw-bold">No submissions found</h5>
+            <p class="text-muted mb-0">There are no items matching this criteria.</p>
         </div>
     </div>
     @else
-    <div class="row g-4">
+    <div class="row g-4 mb-5">
         @foreach($submissions as $submission)
         <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8 mb-4 mb-lg-0">
                             <!-- Badges -->
-                            <div class="mb-3">
-                                <span class="badge badge-{{ strtolower($submission->archive_type) }} me-2">
+                            <div class="mb-3 d-flex flex-wrap gap-2">
+                                <span class="badge badge-{{ strtolower($submission->archive_type) }}">
                                     {{ $submission->archive_type }}
                                 </span>
                                 <span class="badge badge-{{ strtolower($submission->status) }}">
-                                    <i class="bi bi-{{ $submission->status === 'Approved' ? 'check-circle' : ($submission->status === 'Pending' ? 'clock' : 'x-circle') }} me-1"></i>
                                     {{ $submission->status }}
                                 </span>
+                                @if($submission->reviewed_at)
+                                <span class="badge bg-light text-dark small border">
+                                    <i class="bi bi-person-check me-1"></i> Reviewed by Moderator
+                                </span>
+                                @endif
                             </div>
 
                             <!-- Title -->
-                            <h5 class="mb-2">{{ $submission->title }}</h5>
+                            <h4 class="fw-bold mb-3 text-dark">{{ $submission->title }}</h4>
                             
-                            <!-- Author Info -->
-                            <p class="small text-muted mb-2">
-                                <i class="bi bi-person me-1"></i>
-                                By {{ implode(', ', $submission->authors) }}
-                            </p>
-                            <p class="small text-muted mb-2">
-                                <i class="bi bi-envelope me-1"></i>
-                                {{ $submission->user->email }} ({{ $submission->user->name }})
-                            </p>
-                            <p class="small text-muted mb-3">
-                                <i class="bi bi-building me-1"></i>
-                                {{ $submission->department }} • 
-                                <i class="bi bi-calendar3 ms-2 me-1"></i>
-                                Submitted {{ $submission->created_at->format('M d, Y') }}
-                            </p>
-
-                            <!-- Review Info -->
-                            @if($submission->reviewed_at)
-                            <p class="small text-muted mb-2">
-                                <i class="bi bi-check2-square me-1"></i>
-                                Reviewed by {{ $submission->reviewed_by }} on {{ $submission->reviewed_at->format('M d, Y') }}
-                            </p>
-                            @endif
+                            <!-- Detailed Info -->
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="small text-muted text-uppercase fw-bold mb-1">Authors</div>
+                                    <div class="fw-semibold text-dark">{{ implode(', ', $submission->authors) }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="small text-muted text-uppercase fw-bold mb-1">Department</div>
+                                    <div class="fw-semibold text-dark">{{ $submission->department }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="small text-muted text-uppercase fw-bold mb-1">Submitted By</div>
+                                    <div class="fw-semibold text-dark">{{ $submission->user->name }}</div>
+                                    <div class="small text-muted">{{ $submission->user->email }}</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="small text-muted text-uppercase fw-bold mb-1">Submission Date</div>
+                                    <div class="fw-semibold text-dark">{{ $submission->created_at->format('M d, Y') }}</div>
+                                </div>
+                            </div>
 
                             <!-- Admin Remarks -->
                             @if($submission->admin_remarks)
-                            <div class="alert alert-{{ $submission->status === 'Approved' ? 'success' : 'warning' }} small mb-3">
-                                <strong>Admin Remarks:</strong><br>
-                                {{ $submission->admin_remarks }}
-                            </div>
-                            @endif
-
-                            <!-- Domains -->
-                            @if(!empty($submission->research_domains))
-                            <div class="d-flex flex-wrap gap-1">
-                                @foreach(array_slice($submission->research_domains, 0, 5) as $domain)
-                                <span class="badge bg-light text-dark small">{{ $domain }}</span>
-                                @endforeach
-                                @if(count($submission->research_domains) > 5)
-                                <span class="badge bg-light text-dark small">+{{ count($submission->research_domains) - 5 }}</span>
-                                @endif
+                            <div class="mt-4 bg-light p-3 rounded-3 border-start border-4 {{ $submission->status === 'Approved' ? 'border-success' : 'border-danger' }}">
+                                <div class="small fw-bold text-uppercase text-muted mb-1">Moderator Remark:</div>
+                                <div class="small text-dark">{{ $submission->admin_remarks }}</div>
                             </div>
                             @endif
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-outline-primary btn-sm" 
-                                        data-bs-toggle="modal" data-bs-target="#viewModal{{ $submission->id }}">
-                                    <i class="bi bi-eye me-1"></i>View Details
-                                </button>
-                                
+                        <div class="col-lg-4">
+                            <div class="d-grid gap-2 ps-lg-4">
                                 @if($submission->status === 'Pending')
-                                <form action="{{ route('admin.submissions.review', $submission->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <input type="hidden" name="status" value="Approved">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">
-                                        <i class="bi bi-check-circle me-1"></i>Approve
-                                    </button>
-                                </form>
-                                <form action="{{ route('admin.submissions.review', $submission->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <input type="hidden" name="status" value="Rejected">
-                                    <button type="submit" class="btn btn-danger btn-sm w-100">
-                                        <i class="bi bi-x-circle me-1"></i>Reject
-                                    </button>
-                                </form>
+                                <div class="bg-light p-4 rounded-4 border mb-2">
+                                    <form action="{{ route('admin.submissions.review', $submission->id) }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label class="form-label small fw-bold text-uppercase text-muted">Review Decision Feedback</label>
+                                            <textarea class="form-control form-control-sm" name="remarks" rows="2" placeholder="Explain your decision..."></textarea>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" name="status" value="Approved" class="btn btn-success btn-sm flex-fill fw-bold py-2 rounded-3">Approve</button>
+                                            <button type="submit" name="status" value="Rejected" class="btn btn-danger btn-sm flex-fill fw-bold py-2 rounded-3">Reject</button>
+                                        </div>
+                                    </form>
+                                </div>
                                 @endif
 
-                                <a href="{{ route('admin.submissions.edit', $submission->id) }}" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-pencil me-1"></i>Edit All Fields
-                                </a>
-
-                                <form action="{{ route('submissions.destroy', $submission->id) }}" method="POST" 
-                                      onsubmit="return confirm('Are you sure you want to delete this submission?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-outline-danger btn-sm w-100">
-                                        <i class="bi bi-trash me-1"></i>Delete
-                                    </button>
-                                </form>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('admin.submissions.show', $submission->id) }}" class="btn btn-primary btn-sm flex-fill fw-bold py-2 rounded-3">
+                                        Details <i class="bi bi-chevron-right small ms-1"></i>
+                                    </a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light btn-sm py-2 rounded-3 border" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></button>
+                                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow rounded-4 mt-2">
+                                            <li><a class="dropdown-item py-2" href="{{ route('admin.submissions.edit', $submission->id) }}"><i class="bi bi-pencil me-2"></i> Edit Data</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <form action="{{ route('submissions.destroy', $submission->id) }}" method="POST" onsubmit="return confirm('Immediately delete this research from existence?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="dropdown-item text-danger py-2"><i class="bi bi-trash me-2"></i> Delete Permanently</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- View Modal -->
-        <div class="modal fade" id="viewModal{{ $submission->id }}" tabindex="-1">
-            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div>
-                            <h5 class="modal-title">{{ $submission->title }}</h5>
-                            <div class="mt-2">
-                                <span class="badge badge-{{ strtolower($submission->archive_type) }}">{{ $submission->archive_type }}</span>
-                                <span class="badge badge-{{ strtolower($submission->status) }} ms-1">{{ $submission->status }}</span>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Full Details -->
-                        <div class="mb-3">
-                            <h6 class="fw-semibold">Authors</h6>
-                            <p>{{ implode(', ', $submission->authors) }}</p>
-                        </div>
-
-                        <div class="mb-3">
-                            <h6 class="fw-semibold">Submitted By</h6>
-                            <p>{{ $submission->user->name }} ({{ $submission->user->email }})</p>
-                        </div>
-
-                        @if($submission->abstract)
-                        <div class="mb-3">
-                            <h6 class="fw-semibold">Abstract</h6>
-                            <p style="white-space: pre-wrap;">{{ $submission->abstract }}</p>
-                        </div>
-                        @endif
-
-                        @if($submission->pdf_url)
-                        <div class="mb-3">
-                            <h6 class="fw-semibold">PDF Link</h6>
-                            <a href="{{ $submission->pdf_url }}" target="_blank" class="btn btn-primary w-100">
-                                <i class="bi bi-file-pdf me-2"></i>View PDF
-                            </a>
-                        </div>
-                        @endif
-
-                        @if(!empty($submission->drive_links))
-                        <div class="mb-3">
-                            <h6 class="fw-semibold">Drive Links</h6>
-                            @foreach($submission->drive_links as $link)
-                            @if($link)
-                            <a href="{{ $link }}" target="_blank" class="btn btn-outline-primary w-100 mb-2">
-                                <i class="bi bi-cloud me-2"></i>Drive Link
-                            </a>
-                            @endif
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ route('admin.submissions.edit', $submission->id) }}" class="btn btn-primary">
-                            Edit Submission
-                        </a>
                     </div>
                 </div>
             </div>
@@ -256,7 +151,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="mt-4">
+    <div class="mt-4 mb-5 d-flex justify-content-center">
         {{ $submissions->links('pagination::bootstrap-5') }}
     </div>
     @endif
