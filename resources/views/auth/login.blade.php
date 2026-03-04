@@ -4,7 +4,7 @@
 <div class="container" style="margin-top: 8rem; margin-bottom: 5rem;">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
-            <div class="card border rounded-4">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="card-body p-4 p-md-5">
                     <div class="text-center mb-5">
                         <div class="bg-primary text-white d-inline-flex align-items-center justify-content-center rounded-4 p-3 mb-4" style="background-color: var(--accent-color) !important;">

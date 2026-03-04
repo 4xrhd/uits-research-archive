@@ -253,8 +253,8 @@
     <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-3" href="{{ url('/') }}">
-                <div class="bg-primary text-white rounded-pill p-2 px-3" style="background: var(--primary) !important;">
-                    <i class="bi bi-infinity fs-5"></i>
+                <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 42px; height: 42px;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
                 </div>
                 <span class="fw-bold fs-4 tracking-tight">RESEARCH<span class="text-primary-emphasis">HUB</span></span>
             </a>
@@ -427,14 +427,20 @@
             <div class="row g-5">
                 <div class="col-lg-5">
                     <a class="navbar-brand d-flex align-items-center gap-2 mb-4" href="#">
-                        <div class="bg-primary text-white rounded-pill p-1 px-3">
-                            <i class="bi bi-infinity"></i>
+                        <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 36px; height: 36px;">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
                         </div>
                         <span class="fw-bold fs-5">RESEARCHHUB</span>
                     </a>
                     <p class="text-muted mb-4 opacity-75" style="max-width: 350px;">
                         The official research and thesis repository of UITS. Empowering students and faculty to share knowledge with the world.
                     </p>
+                    <div class="mb-4">
+                        <a href="https://uits.edu.bd/" target="_blank" class="text-decoration-none fw-bold text-primary">University of Information Technology and Sciences</a>
+                        <p class="text-muted small mt-1 mb-0 opacity-75">
+                            Main Campus: Holding 190, Road 5, Block J<br>Baridhara, Maddha Nayanagar, Vatara, Dhaka-1212
+                        </p>
+                    </div>
                     <div class="d-flex gap-3">
                         <a href="#" class="btn btn-light rounded-circle shadow-sm"><i class="bi bi-facebook"></i></a>
                         <a href="#" class="btn btn-light rounded-circle shadow-sm"><i class="bi bi-twitter-x"></i></a>
@@ -462,8 +468,8 @@
                 <div class="col-lg-2">
                     <h6 class="fw-bold mb-4">Contact</h6>
                     <ul class="list-unstyled d-grid gap-2 small fw-semibold text-muted">
-                        <li><i class="bi bi-envelope me-2"></i> info@uits.edu</li>
-                        <li><i class="bi bi-geo-alt me-2"></i> Dhaka, Bangladesh</li>
+                        <li><i class="bi bi-envelope me-2"></i> info@uits.edu.bd</li>
+                        <li><i class="bi bi-telephone me-2"></i> +880 9678-008487</li>
                     </ul>
                 </div>
             </div>

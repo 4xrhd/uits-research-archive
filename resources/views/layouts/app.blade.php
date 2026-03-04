@@ -175,8 +175,8 @@
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-                <div class="bg-primary text-white rounded p-1" style="background: var(--accent-color) !important;">
-                    <i class="bi bi-book-half fs-5"></i>
+                <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 40px; height: 40px;">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
                 </div>
                 <span class="fw-bold fs-5">UITS Archive</span>
             </a>
@@ -244,15 +244,22 @@
         <div class="container text-center">
             <div class="mb-4">
                 <div class="d-inline-flex align-items-center gap-2 mb-2">
-                    <div class="bg-primary text-white rounded p-1" style="background: var(--accent-color) !important;">
-                        <i class="bi bi-book-half fs-6"></i>
+                    <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 30px; height: 30px;">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
                     </div>
                     <span class="fw-bold fs-6">UITS Research Archive</span>
                 </div>
-                <p class="text-muted small">Preserving knowledge and research for future generations.</p>
+                <p class="text-muted small mb-1">Preserving knowledge and research for future generations.</p>
+                <div class="text-muted small mb-0">
+                    <a href="https://uits.edu.bd/" target="_blank" class="text-decoration-none text-primary fw-semibold">
+                        University of Information Technology and Sciences (UITS)
+                    </a>
+                    <br>
+                    Main Campus: Holding 190, Road 5, Block J, Baridhara, Maddha Nayanagar, Vatara, Dhaka-1212
+                </div>
             </div>
             <div class="text-muted small">
-                &copy; {{ date('Y') }} University of Information Technology and Sciences. All rights reserved.
+                &copy; {{ date('Y') }} UITS. All rights reserved.
             </div>
         </div>
     </footer>

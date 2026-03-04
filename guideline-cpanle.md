@@ -80,7 +80,7 @@ Since we moved the `public` files away from the core Laravel files, we need to t
     ```
     **Replace with:**
     ```php
-    require __DIR__.'/../uits-archive/vendor/autoload.php';
+    require __DIR__.'/../uits-research-archive/vendor/autoload.php';
     ```
 
     **Find:**
@@ -89,7 +89,7 @@ Since we moved the `public` files away from the core Laravel files, we need to t
     ```
     **Replace with:**
     ```php
-    $app = require_once __DIR__.'/../uits-archive/bootstrap/app.php';
+    $app = require_once __DIR__.'/../uits-research-archive/bootstrap/app.php';
     ```
 4.  Save the changes.
 
