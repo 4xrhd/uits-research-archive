@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UITS Research Archive | Explore the Infinite</title>
+    <title>{{ config('app.name', 'UITS Research Archive') }} | Explore the Infinite</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -252,12 +252,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-3" href="{{ url('/') }}">
-                <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 42px; height: 42px;">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
-                </div>
-                <span class="fw-bold fs-4 tracking-tight">RESEARCH<span class="text-primary-emphasis">HUB</span></span>
-            </a>
+            <x-nav-brand />
             
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <i class="bi bi-grid-fill fs-2"></i>
@@ -426,12 +421,7 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-5">
-                    <a class="navbar-brand d-flex align-items-center gap-2 mb-4" href="#">
-                        <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 36px; height: 36px;">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
-                        </div>
-                        <span class="fw-bold fs-5">RESEARCHHUB</span>
-                    </a>
+                    <x-nav-brand class="mb-4" />
                     <p class="text-muted mb-4 opacity-75" style="max-width: 350px;">
                         The official research and thesis repository of UITS. Empowering students and faculty to share knowledge with the world.
                     </p>

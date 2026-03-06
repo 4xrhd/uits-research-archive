@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Archive - UITS Research Archive</title>
+    <title>Archive - {{ config('app.name', 'UITS Research Archive') }}</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -219,12 +219,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-                <div class="bg-primary text-white rounded p-1" style="background: var(--accent-color) !important;">
-                    <i class="bi bi-book-half fs-5"></i>
-                </div>
-                <span class="fw-bold fs-5">UITS Research Archive</span>
-            </a>
+            <x-nav-brand />
             
             <button class="navbar-toggler border-0 px-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <i class="bi bi-list fs-1 text-dark"></i>

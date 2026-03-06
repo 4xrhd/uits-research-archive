@@ -174,12 +174,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
-                <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 40px; height: 40px;">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
-                </div>
-                <span class="fw-bold fs-5">UITS Archive</span>
-            </a>
+            <x-nav-brand />
             
             <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <i class="bi bi-list fs-2 text-dark"></i>
@@ -243,12 +238,7 @@
     <footer class="py-5 mt-auto">
         <div class="container text-center">
             <div class="mb-4">
-                <div class="d-inline-flex align-items-center gap-2 mb-2">
-                    <div class="bg-white rounded p-1 d-flex align-items-center justify-content-center border" style="width: 30px; height: 30px;">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9O_oaL-_otKvO21z50OKE4YS3fBtnp5FYQQ&s" alt="UITS Logo" style="max-height: 100%; max-width: 100%;">
-                    </div>
-                    <span class="fw-bold fs-6">UITS Research Archive</span>
-                </div>
+                <x-nav-brand class="mb-4 d-inline-flex" />
                 <p class="text-muted small mb-1">Preserving knowledge and research for future generations.</p>
                 <div class="text-muted small mb-0">
                     <a href="https://uits.edu.bd/" target="_blank" class="text-decoration-none text-primary fw-semibold">
