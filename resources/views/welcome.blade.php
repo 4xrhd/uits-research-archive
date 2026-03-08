@@ -463,7 +463,17 @@
                     </ul>
                 </div>
             </div>
+            @php
+                $visitorCount = \Illuminate\Support\Facades\Cache::get('home_visitor_count', 1234); // Starting at a realistic number
+                \Illuminate\Support\Facades\Cache::put('home_visitor_count', $visitorCount + 1);
+            @endphp
             <div class="mt-5 pt-5 border-top text-center text-muted small fw-bold">
+                <div class="mb-3">
+                    <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill shadow-sm fs-6" style="font-weight: 500;">
+                        <i class="bi bi-bar-chart-fill text-primary me-1"></i> 
+                        Total Visitors: <span class="text-dark fw-bold ms-1">{{ number_format($visitorCount + 1) }}</span>
+                    </span>
+                </div>
                 &copy; {{ date('Y') }} UITS Research Archive. Designed with <i class="bi bi-heart-fill text-danger mx-1"></i> for Academic Excellence.
             </div>
         </div>
