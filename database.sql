@@ -73,11 +73,55 @@ CREATE TABLE `cache` (`key` varchar(255) PRIMARY KEY, `value` mediumtext NOT NUL
 CREATE TABLE `jobs` (`id` bigint UNSIGNED PRIMARY KEY AUTO_INCREMENT, `queue` varchar(255) NOT NULL, `payload` longtext NOT NULL, `attempts` tinyint UNSIGNED NOT NULL, `reserved_at` int UNSIGNED DEFAULT NULL, `available_at` int UNSIGNED NOT NULL, `created_at` int UNSIGNED NOT NULL);
 
 INSERT INTO `departments` (`name`, `created_at`, `updated_at`) VALUES
-('Computer Science & Engineering', NOW(), NOW()), ('Electrical & Electronic Engineering', NOW(), NOW()),
-('Business Administration', NOW(), NOW()), ('English', NOW(), NOW()), ('Law', NOW(), NOW());
+('Computer Science & Engineering', NOW(), NOW()),
+('Electrical & Electronic Engineering', NOW(), NOW()),
+('Business Administration', NOW(), NOW()),
+('English', NOW(), NOW()),
+('Law', NOW(), NOW()),
+('Civil Engineering', NOW(), NOW()),
+('Architecture', NOW(), NOW()),
+('Electronics and Communication Engineering', NOW(), NOW()),
+('Pharmacy', NOW(), NOW()),
+('Public Health', NOW(), NOW()),
+('Environmental Science', NOW(), NOW()),
+('Mathematics', NOW(), NOW()),
+('Physics', NOW(), NOW()),
+('Chemistry', NOW(), NOW()),
+('Biotechnology', NOW(), NOW());
+
+INSERT INTO `domains` (`name`, `created_at`, `updated_at`) VALUES
+('Artificial Intelligence', NOW(), NOW()),
+('Machine Learning', NOW(), NOW()),
+('Data Science', NOW(), NOW()),
+('Cybersecurity', NOW(), NOW()),
+('Internet of Things', NOW(), NOW()),
+('Cloud Computing', NOW(), NOW()),
+('Blockchain', NOW(), NOW()),
+('Software Engineering', NOW(), NOW()),
+('Web Development', NOW(), NOW()),
+('Mobile Development', NOW(), NOW()),
+('Network Engineering', NOW(), NOW()),
+('Database Systems', NOW(), NOW()),
+('Human-Computer Interaction', NOW(), NOW()),
+('Computer Vision', NOW(), NOW()),
+('Natural Language Processing', NOW(), NOW()),
+('Robotics', NOW(), NOW()),
+('Renewable Energy', NOW(), NOW()),
+('Sustainable Development', NOW(), NOW()),
+('Public Health', NOW(), NOW()),
+('Environmental Science', NOW(), NOW()),
+('Biotechnology', NOW(), NOW()),
+('Pharmaceutical Sciences', NOW(), NOW()),
+('Civil Engineering', NOW(), NOW()),
+('Architecture', NOW(), NOW()),
+('Business Administration', NOW(), NOW()),
+('Law', NOW(), NOW()),
+('English Literature', NOW(), NOW());
 
 INSERT INTO `users` (`name`, `email`, `password`, `role`, `created_at`, `updated_at`) VALUES
-('Admin User', 'admin@uits.edu.bd', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', NOW(), NOW());
+('Admin User', 'admin@uits.edu.bd', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', NOW(), NOW()),
+('Student User', 'student@uits.edu.bd', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'student', NOW(), NOW()),
+('Faculty User', 'faculty@uits.edu.bd', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'faculty', NOW(), NOW());
 
 SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;
